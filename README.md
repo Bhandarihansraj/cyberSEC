@@ -37,6 +37,20 @@ Or run any task directly:
 
 Tasks 3–5 auto-start DVWA if it isn't already running (`tasks/lib.sh`).
 
+## Automated exploitation (Task 3/4/5, all levels, no Burp/browser needed)
+Scripts craft raw HTTP requests directly (login, set security level, attack) —
+no proxy or manual interception required.
+
+```bash
+pip install -r tasks/automation/requirements.txt --break-system-packages
+
+python3 tasks/task3_sql_injection/automation/sqli_auto.py all      # SQLi, Low/Med/High
+python3 tasks/task4_bruteforce_burp/automation/bruteforce_auto.py all   # Brute force, Low/Med/High
+python3 tasks/task5_file_upload/automation/upload_auto.py all      # Upload bypass, Low/Med/High
+```
+Pass `low`, `medium`, or `high` instead of `all` to run a single level.
+DVWA must be running first (`./tasks/task2_dvwa_setup/run.sh start`).
+
 ## Task guides
 Full step-by-step + payloads for each task are in `docs/`:
 - `docs/task2-guide.md` — DVWA setup (start/stop, first-time browser setup)
