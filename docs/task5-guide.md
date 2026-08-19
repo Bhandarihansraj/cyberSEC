@@ -74,3 +74,39 @@ High checks the file **extension** (must be `.jpg/.jpeg/.png`) **and** validates
 
 **Command execution after upload (Low/Medium):**
 `http://127.0.0.1:4280/hackable/uploads/<filename>?cmd=whoami`
+
+---
+
+## Locating uploaded files (container filesystem)
+
+Web-facing path is `hackable/uploads/`, but the real file lives inside the
+`dvwa-lab` container:
+
+| What | Path |
+|------|------|
+| Uploads directory (in container) | `/var/www/html/hackable/uploads/` |
+| Web URL to same directory | `http://127.0.0.1:4280/hackable/uploads/` |
+| Upload validation source (per level) | `/var/www/html/vulnerabilities/upload/source/low.php` / `medium.php` / `high.php` |
+
+```bash
+# Shell into the container
+docker exec -it dvwa-lab bash
+
+# List everything that's been uploaded
+cd /var/www/html/hackable/uploads/ && ls -la
+
+# Read a specific file's content
+cat shell.php
+
+# Read the exact validation logic for a level (no guessing what High checks)
+cat /var/www/html/vulnerabilities/upload/source/high.php
+exit
+```
+
+```bash
+# Copy an uploaded file OUT to the host, without exec'ing in
+docker cp dvwa-lab:/var/www/html/hackable/uploads/shell.php ./shell.php
+
+# Copy a file IN to the container manually (e.g. pre-built polyglot)
+docker cp ./shell.gif dvwa-lab:/var/www/html/hackable/uploads/shell.gif
+```

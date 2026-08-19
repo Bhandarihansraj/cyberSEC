@@ -1,36 +1,6 @@
-# Practical Guide — Task 2 (DVWA Setup) + Task 3 (SQL Injection)
+# Practical Guide — Task 3 (SQL Injection)
 
 Repo: https://github.com/Bhandarihansraj/cyberSEC
-
----
-
-## TASK 2 — DVWA Setup (Docker)
-
-### Start
-```bash
-cd cyberSEC
-./tasks/task2_dvwa_setup/run.sh start
-```
-Or via menu: `./menu.sh` → select `2` → `s`
-
-### First-time browser setup
-1. Open `http://127.0.0.1:4280`
-2. Login: `admin` / `password`
-3. Left menu → **Create / Reset Database** → wait for success message
-4. Login again with same credentials
-
-### Stop
-```bash
-./tasks/task2_dvwa_setup/run.sh stop
-```
-Removes the container + network. No data is kept between runs — you'll need to Create/Reset Database again next start.
-
-### Security reminder
-Bound to `127.0.0.1:4280` only. Never forward this port externally — DVWA is intentionally vulnerable.
-
----
-
-## TASK 3 — SQL Injection
 
 ### Setup
 1. In DVWA, left menu → **DVWA Security** → set level (Low / Medium / High) → Submit
@@ -47,7 +17,8 @@ Increase the number until it errors — the last one that worked = number of col
 
 ---
 
-### LOW — direct browser input
+## LOW — direct browser input
+
 No filtering on input. Type straight into the User ID box:
 
 ```
@@ -64,7 +35,7 @@ To dump credentials:
 
 ---
 
-### MEDIUM — Burp required (dropdown restriction)
+## MEDIUM — Burp required (dropdown restriction)
 
 The input is a `<select>` dropdown, not free text, so you can't type a payload directly in the browser.
 
@@ -80,7 +51,7 @@ The input is a `<select>` dropdown, not free text, so you can't type a payload d
 
 ---
 
-### HIGH — Burp Repeater + session cookie
+## HIGH — Burp Repeater + session cookie
 
 High strips quotes **and** limits results with `LIMIT 1`, plus requires a valid session token in the request.
 
@@ -102,7 +73,7 @@ DVWA stores passwords as MD5. Copy a hash out of the response and either:
 
 ---
 
-## Quick payload reference
+## Quick reference
 
 | Level  | Access method     | Payload |
 |--------|-------------------|---------|

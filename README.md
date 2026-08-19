@@ -39,19 +39,17 @@ Tasks 3–5 auto-start DVWA if it isn't already running (`tasks/lib.sh`).
 
 ## Task guides
 Full step-by-step + payloads for each task are in `docs/`:
-- `docs/task2-task3-guide.md` — DVWA setup + SQL Injection (Low/Medium/High)
+- `docs/task2-guide.md` — DVWA setup (start/stop, first-time browser setup)
+- `docs/task3-guide.md` — SQL Injection (Low/Medium/High)
 - `docs/task4-guide.md` — Brute Force (Low/Medium/High, Burp Intruder)
-- `docs/task5-guide.md` — File Upload (Low/Medium/High)
+- `docs/task5-guide.md` — File Upload (Low/Medium/High) + upload directory locations
+- `docs/docker-commands.md` — Docker command reference shared across Task 2-5 (exec, logs, cp, cleanup)
 
-## Push to GitHub
-```bash
-./commit.sh
-```
-Runs `git init` (if needed) → `add` → `commit` → sets `main` branch → adds
-remote `origin` (if missing) → `push`. First push will prompt for GitHub
-login/personal access token over HTTPS.
+Open the guide for the task you're working on and follow it top to bottom —
+each one is self-contained (setup step, payloads per level, quick reference
+table at the end).
 
-
+## Security notes
 - DVWA port is bound to `127.0.0.1` only — never expose it on `0.0.0.0` or a
   public interface; it is intentionally vulnerable software.
 - Run only on an isolated/lab machine or VM, never on a production host or
