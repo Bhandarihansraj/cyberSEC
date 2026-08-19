@@ -8,6 +8,17 @@ Every task runs as an isolated, independent operation — start/stop from one me
 - Docker + Docker Compose plugin
 - Nothing else — no manual Apache/MySQL/PHP setup needed
 
+## Quick setup (fresh Kali)
+Bootstraps everything in one shot — Docker, Burp check, repo clone, Python deps:
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+This installs Docker Engine + Compose plugin (if missing), verifies Burp Suite,
+clones/updates the repo into `~/cyberSEC`, makes all task scripts executable,
+and installs the automation scripts' Python dependencies.
+If Docker was just installed, run `newgrp docker` once (or log out/in) so
+your user's new group membership takes effect.
+
 ## Usage
 ```bash
 git clone https://github.com/Bhandarihansraj/cyberSEC.git
