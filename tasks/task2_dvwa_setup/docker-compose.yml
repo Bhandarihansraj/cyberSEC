@@ -1,0 +1,13 @@
+services:
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: dvwa-lab
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4280:80"   # localhost-only — never expose this publicly
+    networks:
+      - dvwa-isolated
+
+networks:
+  dvwa-isolated:
+    driver: bridge
