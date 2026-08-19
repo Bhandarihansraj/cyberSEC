@@ -1,0 +1,8 @@
+admin
+administrator
+user
+test
+root
+dvwa
+guest
+webmaster

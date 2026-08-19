@@ -7,12 +7,12 @@ Repo: https://github.com/Bhandarihansraj/cyberSEC
 2. Run: `./tasks/task4_bruteforce_burp/run.sh start` (confirms DVWA up, prints checklist)
 3. Left menu → **Brute Force**
 
-### Wordlists (quick test lists — expand as needed)
+### Wordlists (ready-made files in the repo)
 ```
-usernames.txt   admin, administrator, user, test
-passwords.txt   password, admin, 123456, letmein, password123
+tasks/task4_bruteforce_burp/wordlists/usernames.txt
+tasks/task4_bruteforce_burp/wordlists/passwords.txt
 ```
-(DVWA's real creds are `admin`/`password` — put that combo in each list so the attack actually succeeds.)
+Load these directly as Payload set 1 / set 2 in Burp Intruder (Payloads tab → Load). `admin`/`password` is included in both — DVWA's real default creds — so a successful hit is guaranteed to show up in results.
 
 ---
 

